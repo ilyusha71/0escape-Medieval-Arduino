@@ -27,7 +27,6 @@ char unlock;
 void setup() 
 {
   Serial.begin(9600);
-  Serial.println("Catapult Controller 2016/04/23 iLYuSha Wakaka KocmocA");
   pinMode(leftLow,INPUT_PULLUP);
   pinMode(leftHigh,INPUT_PULLUP);
   pinMode(rightLow,INPUT_PULLUP);
@@ -37,6 +36,7 @@ void setup()
   pinMode(node8,INPUT_PULLUP);
   pinMode(emLockTunnelEntrance,OUTPUT);
   digitalWrite(emLockTunnelEntrance,HIGH);
+  Serial.println("Catapult Controller 2016/04/23 iLYuSha Wakaka KocmocA");
 }
 
 void loop() 

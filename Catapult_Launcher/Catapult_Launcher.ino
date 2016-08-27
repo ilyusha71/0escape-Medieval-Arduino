@@ -25,7 +25,6 @@ char unlock;
 void setup() 
 {
   Serial.begin(9600);
-  Serial.println("Catapult Launcher 2016/04/23 iLYuSha Wakaka KocmocA");
   pinMode(reload,INPUT_PULLUP);
   pinMode(chargeUp,INPUT_PULLUP);
   pinMode(chargeDown,INPUT_PULLUP);
@@ -34,6 +33,7 @@ void setup()
   pinMode(rune3,INPUT_PULLUP);
   pinMode(emLockStone,OUTPUT);
   digitalWrite(emLockStone,HIGH);
+  Serial.println("Catapult Launcher 2016/04/23 iLYuSha Wakaka KocmocA");
 }
 
 void loop() 

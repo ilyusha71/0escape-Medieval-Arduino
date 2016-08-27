@@ -44,8 +44,8 @@ void setup() {
   digitalWrite(magic, LOW);
   digitalWrite(destruction, LOW);
   digitalWrite(redemption, LOW);
-  delay(1000);
-  Serial.println("Magic Altar 2015/10/30 iLYuSha");
+  Serial.println("Magic Altar 2016/08/27 iLYuSha Wakaka KocmocA");
+  delay(3000);
 }
 
 void loop() {
@@ -58,19 +58,22 @@ void loop() {
   
   if(holyGrailValue == 1 && dragonFangValue == 1 && roundTableValue == 1 && crownValue == 1)
   {
-    digitalWrite(activeAltar, HIGH);
-    digitalWrite(magic, HIGH);
-    enableMagicAltar = true;
-  }
-  
-  if(enableMagicAltar && heartDestructionValue == 1)
-  {
-    digitalWrite(destruction, HIGH);
-  }
-
-  if(enableMagicAltar && heartRedemptionValue == 1)
-  {
-    digitalWrite(emLockMagic, HIGH);
-    digitalWrite(redemption, HIGH);
+    if(!enableMagicAltar)
+    {
+      digitalWrite(activeAltar, HIGH);
+      digitalWrite(magic, HIGH);
+      enableMagicAltar = true;
+    }
+    else
+    {
+      if(heartDestructionValue == 1)
+        digitalWrite(destruction, HIGH);
+        
+      if(heartRedemptionValue == 1)
+      {
+        digitalWrite(emLockMagic, HIGH);
+        digitalWrite(redemption, HIGH);
+      }
+    }
   }
 }
