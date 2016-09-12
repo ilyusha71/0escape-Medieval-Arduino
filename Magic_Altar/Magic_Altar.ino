@@ -2,7 +2,7 @@
   Title: Magic Altar
   Studio: iLYuSha Wakaka & 0escape
   Author: By iLYuSha Wakaka KocmocA
-  2015/10/30
+  2016/08/28
 *******************************************/
 /* Input */
 const int holyGrail = 2;
@@ -12,8 +12,9 @@ const int crown = 5;
 const int heartDestruction = 6;
 const int heartRedemption = 7;
 /* Output */
-const int activeAltar = 8; //uvLight,caliburn
-const int emLockMagic = 9; // Magician Room
+const int activeTomb = 8; // Ancient Tomb Active
+const int activeAltar = 9; //uvLight,caliburn
+const int emLockMagic = 10; // Magician Room
 const int magic = 11; // Animation 1st
 const int destruction = 12; // Animation 2nd
 const int redemption = 13; // Animation 3rd
@@ -34,17 +35,19 @@ void setup() {
   pinMode(crown,INPUT);
   pinMode(heartDestruction,INPUT);
   pinMode(heartRedemption,INPUT);  
+  pinMode(activeTomb,OUTPUT);
   pinMode(activeAltar,OUTPUT);
   pinMode(emLockMagic,OUTPUT);
   pinMode(magic,OUTPUT);
   pinMode(destruction,OUTPUT);
   pinMode(redemption,OUTPUT);
+  digitalWrite(activeTomb, LOW);
   digitalWrite(activeAltar, LOW);
   digitalWrite(emLockMagic, LOW);
   digitalWrite(magic, LOW);
   digitalWrite(destruction, LOW);
   digitalWrite(redemption, LOW);
-  Serial.println("Magic Altar 2016/08/27 iLYuSha Wakaka KocmocA");
+  Serial.println("Magic Altar 2016/08/28 iLYuSha Wakaka KocmocA");
   delay(3000);
 }
 
@@ -60,6 +63,7 @@ void loop() {
   {
     if(!enableMagicAltar)
     {
+      digitalWrite(activeTomb, HIGH);
       digitalWrite(activeAltar, HIGH);
       digitalWrite(magic, HIGH);
       enableMagicAltar = true;
