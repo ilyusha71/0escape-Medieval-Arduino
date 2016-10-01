@@ -2,32 +2,43 @@
   Title: Magic Altar
   Studio: iLYuSha Wakaka & 0escape
   Author: By iLYuSha Wakaka KocmocA
-  2016/08/28
+  2016/10/01
 *******************************************/
 /* Input */
 const int holyGrail = 2;
-const int dragonFang = 3;
-const int roundTable = 4;
+const int roundTable = 3;
+const int dragonFang = 4;
 const int crown = 5;
 const int heartDestruction = 6;
 const int heartRedemption = 7;
+/* Input Variable */
+int digitalHolyGrail = 0;
+int digitalRoundTable = 0;
+int digitalDragonFang = 0;
+int digitalCrown = 0;
+int digitalDestruction = 0;
+int digitalRedemption = 0;
+/* Retained Variable */
+int valueHolyGrail = 0;
+int valueRoundTable = 0;
+int valueDragonFang = 0;
+int valueCrown = 0;
+int valueDestruction = 0;
+int valueRedemption = 0;
 /* Output */
 const int activeTomb = 8; // Ancient Tomb Active
-const int activeAltar = 9; //uvLight,caliburn
+const int activeAltar = 9; //uvLight, Caliburn
 const int emLockMagic = 10; // Magician Room
-const int magic = 11; // Animation 1st
-const int destruction = 12; // Animation 2nd
-const int redemption = 13; // Animation 3rd
+const int animMagic = 11; // Animation 1st
+const int animDestruction = 12; // Animation 2nd
+const int animRedemption = 13; // Animation 3rd
 /* Function */
-int holyGrailValue = 0;
-int dragonFangValue = 0;
-int roundTableValue = 0;
-int crownValue = 0;
-int heartDestructionValue = 0;
-int heartRedemptionValue = 0;
 boolean enableMagicAltar = false;
+/* Variable */
+int passLoop = 1000;
 
-void setup() {
+void setup() 
+{
   Serial.begin(9600);        // Initialize serial communications with the PC
   pinMode(holyGrail,INPUT);
   pinMode(dragonFang,INPUT);
@@ -38,45 +49,51 @@ void setup() {
   pinMode(activeTomb,OUTPUT);
   pinMode(activeAltar,OUTPUT);
   pinMode(emLockMagic,OUTPUT);
-  pinMode(magic,OUTPUT);
-  pinMode(destruction,OUTPUT);
-  pinMode(redemption,OUTPUT);
-  digitalWrite(activeTomb, LOW);
-  digitalWrite(activeAltar, LOW);
-  digitalWrite(emLockMagic, LOW);
-  digitalWrite(magic, LOW);
-  digitalWrite(destruction, LOW);
-  digitalWrite(redemption, LOW);
-  Serial.println("Magic Altar 2016/08/28 iLYuSha Wakaka KocmocA");
-  delay(3000);
+  pinMode(animMagic,OUTPUT);
+  pinMode(animDestruction,OUTPUT);
+  pinMode(animRedemption,OUTPUT);
+  digitalWrite(activeTomb, LOW); // NO
+  digitalWrite(activeAltar, LOW); // NO
+  digitalWrite(emLockMagic, LOW); // NC
+  digitalWrite(animMagic, HIGH);
+  digitalWrite(animDestruction, HIGH);
+  digitalWrite(animRedemption, HIGH);
+  Serial.println("Magic Altar 2016/10/01 iLYuSha Wakaka KocmocA");
 }
 
-void loop() {
-  holyGrailValue = digitalRead(holyGrail);
-  dragonFangValue = digitalRead(dragonFang);
-  roundTableValue = digitalRead(roundTable);
-  crownValue = digitalRead(crown);
-  heartDestructionValue = digitalRead(heartDestruction);
-  heartRedemptionValue = digitalRead(heartRedemption);
+int Digital2Value(int value, int digital)
+{
+  digital == 1 ? value++ : value = 0;
+  return value;
+}
+
+void loop() 
+{
+  valueHolyGrail = Digital2Value(valueHolyGrail, digitalRead(holyGrail));
+  valueRoundTable = Digital2Value(valueRoundTable, digitalRead(roundTable));
+  valueDragonFang = Digital2Value(valueDragonFang, digitalRead(dragonFang));
+  valueCrown = Digital2Value(valueCrown, digitalRead(crown));
+  valueDestruction = Digital2Value(valueDestruction, digitalRead(heartDestruction));
+  valueRedemption = Digital2Value(valueRedemption, digitalRead(heartRedemption));
   
-  if(holyGrailValue == 1 && dragonFangValue == 1 && roundTableValue == 1 && crownValue == 1)
+  if(valueHolyGrail > passLoop && valueRoundTable > passLoop && valueDragonFang > passLoop && valueCrown > passLoop)
   {
     if(!enableMagicAltar)
     {
       digitalWrite(activeTomb, HIGH);
       digitalWrite(activeAltar, HIGH);
-      digitalWrite(magic, HIGH);
+      digitalWrite(animMagic, LOW);
       enableMagicAltar = true;
     }
     else
     {
-      if(heartDestructionValue == 1)
-        digitalWrite(destruction, HIGH);
+      if(valueDestruction > passLoop)
+        digitalWrite(animDestruction, LOW);
         
-      if(heartRedemptionValue == 1)
+      if(valueRedemption > passLoop)
       {
         digitalWrite(emLockMagic, HIGH);
-        digitalWrite(redemption, HIGH);
+        digitalWrite(animRedemption, LOW);
       }
     }
   }

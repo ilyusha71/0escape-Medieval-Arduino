@@ -19,8 +19,10 @@ const int tagTombGate[4] = {81,136,167,213}; // 5188A7D5
 /* Input */
 const int sensorIR = 2;
 const int reedSwitchTombGate = 3;
+/* Input Variable */
 int digitalIR = 0;
 int digitalTombGate = 0;
+/* Retained Variable */
 int valueIR = 0;
 int valueTombGate = 0;
 /* Output */
