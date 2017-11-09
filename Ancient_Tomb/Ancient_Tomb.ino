@@ -14,8 +14,8 @@ MFRC522::MIFARE_Key key;//create a MIFARE_Key struct named 'key', which will hol
 
 #define SHOW_TAG_ID
 /* Constant for Redemption Slate Tag ID */
-const int tagRedemption[4] = {117,28,160,9}; // 751CA09
-const int tagTombGate[4] = {81,136,167,213}; // 5188A7D5
+const int tagRedemption[4] = {81,136,167,213}; // 5188A7D5
+const int tagTombGate[4] = {117,28,160,9}; // 751CA09
 /* Input */
 const int sensorIR = 2;
 const int reedSwitchTombGate = 3;
@@ -50,7 +50,7 @@ void setup()
   pinMode(emLockTombGate,OUTPUT);
   digitalWrite(emLockDestruction, HIGH);
   digitalWrite(emLockRedemption, HIGH);
-  digitalWrite(emLockTombGate, HIGH);
+  digitalWrite(emLockTombGate, LOW);
   Serial.println("Ancient Tomb 2016/09/10 iLYuSha Wakaka KocmocA");
 }
 
@@ -80,8 +80,14 @@ void loop()
   digitalTombGate == 1 ? valueTombGate++ : valueTombGate=0;
 
   /* Traitor Mission */
-  if(valueIR > 30 && valueTombGate > 30)
-    digitalWrite(emLockDestruction, LOW);
+  if(valueTombGate > 30)
+  {
+      digitalWrite(emLockTombGate, HIGH);
+      if(valueIR > 30)
+        digitalWrite(emLockDestruction, LOW);
+  }
+  else
+      digitalWrite(emLockTombGate, LOW);
 
   if(escape == -1)
   {

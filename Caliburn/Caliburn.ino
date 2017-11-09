@@ -5,24 +5,25 @@
   2016/09/08
 *******************************************/
 /* Output */
-const int caliburnLock = 8;
-const int remote = 9;
+const int remote = 8;
+const int caliburnLock = 9;
 
 void setup() {
   Serial.begin(9600);        // Initialize serial communications with the PC
-  pinMode(caliburnLock, OUTPUT);
   pinMode(remote, OUTPUT);
-  digitalWrite(caliburnLock, HIGH);
+  pinMode(caliburnLock, OUTPUT);
   digitalWrite(remote, HIGH);
+  digitalWrite(caliburnLock, HIGH);
   Serial.println("Caliburn 2016/09/08 iLYuSha Wakaka KocmocA");
   delay(3000);
   digitalWrite(remote, LOW);
+  digitalWrite(caliburnLock, LOW);
 }
 
 void loop() 
 {
-  delay(200000);
-  digitalWrite(caliburnLock, LOW);
-  delay(10000);
+  delay(60000);
   digitalWrite(caliburnLock, HIGH);
+  delay(10000);
+  digitalWrite(caliburnLock, LOW);
 }

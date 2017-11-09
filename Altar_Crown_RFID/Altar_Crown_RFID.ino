@@ -1,9 +1,10 @@
-/******************************************
-  Title: Magic Altar & Prophet - Crown
-  Studio: Wakaka KocmocA & 0escape
-  Author: By iLYuSha Wakaka KocmocA
-  2016/10/01
-*******************************************/
+/**************************************************************************************** 
+ * Wakaka Studio 2017
+ * Author: iLYuSha Dawa-mumu Wakaka Kocmocovich Kocmocki KocmocA
+ * Project: 0escape Medieval - Altar - Crown RFID
+ * Tools: Unity 5.6 + Arduino Mega2560
+ * Last Updated: 2017/11/06
+ ****************************************************************************************/
 #include <SPI.h>//include the SPI bus library
 #include <MFRC522.h>//include the RFID reader library
 
@@ -13,12 +14,13 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);        // instatiate a MFRC522 reader object.
 MFRC522::MIFARE_Key key;//create a MIFARE_Key struct named 'key', which will hold the card information
 
 #define SHOW_TAG_ID
+/* RFID Variable */
+int tag[4];
+int escape = 0;
 /* Constant for Tag ID */
-const int tagCrown[4] = {90,241,0,185}; // 5AF10B9
+int tagCrown[4] = {90,241,0,185}; // 5AF10B9
 /* Output */
 const int passCrown = 8;
-/* Variable */
-int escape = 0;
 
 void setup() 
 {
@@ -31,8 +33,8 @@ void setup()
   }
 
   pinMode(passCrown,OUTPUT);
-  digitalWrite(passCrown, LOW);
-  Serial.println("Magic Altar & Prophet - Crown 2016/10/01 iLYuSha Wakaka KocmocA");
+  digitalWrite(passCrown, HIGH);
+  Serial.println("Magic Altar & Prophet - Crown 2016/11/18 iLYuSha Wakaka KocmocA");
 }
 
 int block=2;//this is the block number we will write into and then read. Do not write into 'sector trailer' block, since this can make the block unusable.
@@ -43,17 +45,11 @@ void loop()
 {
   if(escape == -1)
   {
-    ShowTagID();
-    
-    if(mfrc522.uid.uidByte[0] == tagCrown[0] && 
-    mfrc522.uid.uidByte[1] == tagCrown[1] && 
-    mfrc522.uid.uidByte[2] == tagCrown[2] && 
-    mfrc522.uid.uidByte[3] == tagCrown[3])
+    if(CheckTagID(tagCrown))
     {
-      digitalWrite(passCrown, HIGH);
-      Serial.print(" Crown Bingo ");
+      digitalWrite(passCrown, LOW);
+      Serial.print("Crown Bingo ");
       ShowTagID();
-      Serial.println("");
     }
   }
   /* 重啟機制 */
@@ -77,7 +73,7 @@ void loop()
   **********************************************/
   else if(escape > 0)
   {
-    digitalWrite(passCrown, LOW);
+    digitalWrite(passCrown, HIGH);
   }
   /*****************************************establishing contact with a tag/card**********************************************************************/
   // Look for new cards (in case you wonder what PICC means: proximity integrated circuit card)
@@ -91,13 +87,15 @@ void loop()
   if ( ! mfrc522.PICC_ReadCardSerial()) {//if PICC_ReadCardSerial returns 1, the "uid" struct (see MFRC522.h lines 238-45)) contains the ID of the read card.
     return;//if it returns a '0' something went wrong and we return to the start of the loop
   }
-
+ 
   Serial.print("uid:");
   for(int i=0;i<mfrc522.uid.size;i++)
   {
+    tag[i] = mfrc522.uid.uidByte[i];
     Serial.print(mfrc522.uid.uidByte[i],HEX);
   }
-  Serial.println("");
+  Serial.print(" ");
+  ShowTagID();
 }
 
 void ShowTagID()
@@ -112,4 +110,14 @@ void ShowTagID()
   Serial.print(" , ");
   Serial.println(mfrc522.uid.uidByte[3]);
   #endif
+}
+
+boolean CheckTagID(int tagWakaka [])
+{
+  for(int i = 0; i < 4 ; i++ )
+  {
+    if(tag[i] != tagWakaka[i])
+      return false;
+  }
+  return true;
 }
